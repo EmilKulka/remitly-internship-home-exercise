@@ -1,0 +1,41 @@
+services:
+  app:
+    image: emilkulka12:/swift-code-api:latest
+    container_name: swift-code-api
+    ports:
+      - '8080:8008'
+    networks:
+      - backend
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+    - ../.env
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL:?SPRING_DATASOURCE_URL not provided in .env file!}
+      POSTGRES_USER: ${POSTGRES_USER:?POSTGRES_USER not provided in .env file!}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD not provided in .env file!}
+
+  swift-code-db:
+    image: postgres:17.4
+    container_name: swift-code-db
+    ports:
+      - '5432:5432'
+    networks:
+      - backend
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:?POSTGRES_USER not provided in .env file!}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD not provided in .env file!}
+      POSTGRES_DB: ${POSTGRES_DB:?POSTGRES_DB not provided in .env file!}
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+    volumes:
+      - swift-code-db-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+networks:
+  backend:
+
+volumes:
+  swift-code-db-data:
+
