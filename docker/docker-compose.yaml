@@ -1,16 +1,14 @@
 services:
   app:
-    image: emilkulka12:/swift-code-api:latest
+    image: emilkulka12/swift-code-api:latest
     container_name: swift-code-api
     ports:
-      - '8080:8008'
+      - '8080:8080'
     networks:
       - backend
     depends_on:
-      db:
+      swift-code-db:
         condition: service_healthy
-    env_file:
-    - ../.env
     environment:
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL:?SPRING_DATASOURCE_URL not provided in .env file!}
       POSTGRES_USER: ${POSTGRES_USER:?POSTGRES_USER not provided in .env file!}
