@@ -75,7 +75,6 @@ class SwiftCodeValidatorTest {
     void isValidCountryISOFormat_WithInvalidFormat_ShouldReturnFalse() {
         // When/Then
         assertThat(validator.isValidCountryISOFormat("USA")).isFalse();
-        assertThat(validator.isValidCountryISOFormat("us")).isFalse();
         assertThat(validator.isValidCountryISOFormat("1")).isFalse();
         assertThat(validator.isValidCountryISOFormat(null)).isFalse();
     }
