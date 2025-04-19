@@ -1,5 +1,6 @@
 package pl.emilkulka.remitly_internship.dto;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,8 +12,13 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonPropertyOrder({
+        "countryISO2",
+        "countryName",
+        "swiftCodes"
+})
 public class CountrySwiftCodesDTO {
     private String countryISO2;
     private String countryName;
-    private List<SwiftCodeDTO> swiftCodes;
+    private List<CountrySwiftCodeDTO> swiftCodes;
 }
