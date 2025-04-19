@@ -39,7 +39,7 @@ public class SwiftCodeServiceImpl implements SwiftCodeService {
     public CountrySwiftCodesDTO getSwiftCodesByCountry(String countryISO2) {
         validator.validateCountryISO(countryISO2);
 
-        List<SwiftCode> swiftCodes = swiftCodeRepository.findByCountryISO2(countryISO2);
+        List<SwiftCode> swiftCodes = swiftCodeRepository.findByCountryISO2(countryISO2.toUpperCase());
 
         if (swiftCodes.isEmpty()) {
             throw new ResourceNotFoundException("No swift codes found for country: " + countryISO2);
