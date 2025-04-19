@@ -3,36 +3,48 @@ package pl.emilkulka.remitly_internship.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import pl.emilkulka.remitly_internship.dto.SwiftCodeBranchDTO;
-import pl.emilkulka.remitly_internship.dto.SwiftCodeCreateDTO;
-import pl.emilkulka.remitly_internship.dto.SwiftCodeDTO;
+import pl.emilkulka.remitly_internship.dto.*;
 import pl.emilkulka.remitly_internship.model.SwiftCode;
-import pl.emilkulka.remitly_internship.dto.SwiftCodeWithBranchesDTO;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface SwiftCodeMapper {
 
-    SwiftCodeDTO toDto(SwiftCode swiftCode);
+    @Mapping(source = "headquarterFlag", target = "isHeadquarter")
+    SwiftCodeDTO toSwiftCodeDTO(SwiftCode swiftCode);
 
+    @Mapping(source = "headquarterFlag", target = "isHeadquarter")
+    BranchDTO toBranchDTO(SwiftCode swiftCode);
+    @Mapping(source = "headquarterFlag", target = "isHeadquarter")
     @Mapping(target = "branches", source = "branches", qualifiedByName = "toBranchDtoList")
-    SwiftCodeWithBranchesDTO toWithBranchesDto(SwiftCode swiftCode);
+    SwiftCodeDetailsDTO toSwiftCodeDetailsDTO(SwiftCode swiftCode);
+
 
     @Named("toBranchDtoList")
-    List<SwiftCodeBranchDTO> toBranchDtoList(List<SwiftCode> branches);
+    default List<BranchDTO> toBranchDtoList(List<SwiftCode> branches) {
+        if (branches == null) {
+            return List.of();
+        }
+        return branches.stream()
+                .map(this::toBranchDTO)
+                .toList();
+    }
 
+    @Mapping(source = "headquarter", target = "headquarterFlag")
     @Mapping(target = "headquarter", ignore = true)
     @Mapping(target = "branches", ignore = true)
     SwiftCode fromCreateDto(SwiftCodeCreateDTO createDto);
 
-    @Mapping(target = "isHeadquarter", source = "headquarter", qualifiedByName = "isHeadquarter")
-    SwiftCodeBranchDTO toBranchDto(SwiftCode swiftCode);
-
-    @Named("isHeadquarter")
-    default boolean isHeadquarter(SwiftCode headquarter) {
-        return headquarter == null;
+    default List<CountrySwiftCodeDTO> toCountrySwiftCodeDTOList(List<SwiftCode> swiftCodes) {
+        if (swiftCodes == null) {
+            return List.of();
+        }
+        return swiftCodes.stream()
+                .map(this::toCountrySwiftCodeDTO)
+                .toList();
     }
 
-    List<SwiftCodeDTO> toDtoList(List<SwiftCode> swiftCodes);
+    @Mapping(source = "headquarterFlag", target = "isHeadquarter")
+    CountrySwiftCodeDTO toCountrySwiftCodeDTO(SwiftCode swiftCode);
 }

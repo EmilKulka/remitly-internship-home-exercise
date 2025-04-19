@@ -10,6 +10,6 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SwiftCodeWithBranchesDTO extends SwiftCodeDTO{
-    private List<SwiftCodeBranchDTO> branches;
+public class SwiftCodeDetailsDTO extends SwiftCodeDTO{
+    private List<BranchDTO> branches;
 }

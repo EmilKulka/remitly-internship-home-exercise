@@ -16,15 +16,13 @@ import lombok.experimental.SuperBuilder;
         "bankName",
         "address",
         "countryISO2",
-        "countryName",
         "isHeadquarter"
 })
-public class SwiftCodeDTO {
+public class CountrySwiftCodeDTO {
     private String swiftCode;
     private String bankName;
     private String address;
     private String countryISO2;
-    private String countryName;
     @JsonProperty("isHeadquarter")
     private boolean isHeadquarter;
 }
